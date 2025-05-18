@@ -17,3 +17,7 @@ exports.peek = function () {
     return _.last(stack);
 }
 
+test('pop on empty stack throws an error', () => {
+    // Förvänta dig ett fel, men inget kastas just nu = fail
+    expect(() => stack.pop()).toThrow("Cannot pop from empty stack");
+});

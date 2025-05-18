@@ -34,3 +34,11 @@ describe('Clicking "Pusha till stacken"', () => {
         await alert.accept();
     });
 });
+test('Poppa från tom stack visar undefined', async () => {
+    const popButton = await driver.findElement(By.id('pop'));
+    await popButton.click();
+    const alert = await driver.switchTo().alert();
+    const alertText = await alert.getText();
+    expect(alertText).toContain("undefined"); // ska visa 'Tog bort undefined'
+    await alert.accept();
+});
