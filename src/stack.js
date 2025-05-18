@@ -9,8 +9,8 @@ exports.push = function (x) {
 
 // Returnerar det översta elementet i stacken och tar bort det
 exports.pop = function () {
-    throw new Error("Cannot pop from empty stack"); 
-};
+    return stack.pop();
+}
 
 // Returnerar det översta elementet i stacken
 exports.peek = function () {
