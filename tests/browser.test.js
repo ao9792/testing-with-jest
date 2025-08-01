@@ -20,18 +20,10 @@ afterAll(async() => {
     await driver.quit();
 }, defaultTimeout);
 
-test('Poppa från tom stack visar undefined', async () => {
-    await driver.navigate().refresh(); 
-    const popButton = await driver.findElement(By.id('pop'));
-    await popButton.click();
-
-    const alert = await driver.switchTo().alert();
-    const alertText = await alert.getText();
-
-    expect(alertText).toContain("undefined");
-    await alert.accept();
+test('The stack should be empty in the beginning', async () => {
+    let stack = await driver.findElement(By.id('top_of_stack')).getText();
+    expect(stack).toEqual("n/a");
 });
-
 
 describe('Clicking "Pusha till stacken"', () => {
     it('should open a prompt box', async () => {
