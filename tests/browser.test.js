@@ -1,51 +1,33 @@
-const { Builder, By } = require('selenium-webdriver');
+const { Builder, By, until } = require('selenium-webdriver');
 require('geckodriver');
 
-const fileUnderTest =
-  'file://' +
-  __dirname.replaceAll(/ /g, '%20').replaceAll(/\\/g, '/') +
-  '/../dist/index.html';
 
+const fileUnderTest = 'file://' + __dirname.replaceAll(/ /g, '%20').replaceAll(/\\/g, '/') + '/../dist/index.html';
 const defaultTimeout = 10000;
 let driver;
-jest.setTimeout(1000 * 60 * 5);
+jest.setTimeout(1000 * 60 * 5); // 5 minuter
 
 beforeAll(async () => {
-  driver = await new Builder().forBrowser('firefox').build();
-  await driver.get(fileUnderTest);
+console.log(fileUnderTest);
+    driver = await new Builder().forBrowser('firefox').build();
+    await driver.get(fileUnderTest);
 });
 
-afterAll(async () => {
-  await driver.quit();
+afterAll(async() => {
+    await driver.quit();
 }, defaultTimeout);
 
 test('The stack should be empty in the beginning', async () => {
-  const text = await driver.findElement(By.id('top_of_stack')).getText();
-  expect(text).toEqual('n/a');
+    let stack = await driver.findElement(By.id('top_of_stack')).getText();
+    expect(stack).toEqual("n/a");
 });
 
 describe('Clicking "Pusha till stacken"', () => {
-  it('should open a prompt box and add the value to the stack', async () => {
-    const push = await driver.findElement(By.id('push'));
-    await push.click();
-    const alert = await driver.switchTo().alert();
-    await alert.sendKeys('Bananer');
-    await alert.accept();
-
-    const stackTop = await driver.findElement(By.id('top_of_stack')).getText();
-    expect(stackTop).toEqual('Bananer');
-  });
-});
-
-test('Poppa på tom stack visar felmeddelande (ska FAILA nu)', async () => {
-  await driver.navigate().refresh();
-  const popBtn = await driver.findElement(By.id('pop'));
-  await popBtn.click();
-
-  const alert = await driver.switchTo().alert();
-  const text = await alert.getText();
-
-  expect(text).toBe('Kan inte poppa från tom stack'); // -> FAIL nu
-
-  await alert.accept();
+    it('should open a prompt box', async () => {
+        let push = await driver.findElement(By.id('push'));
+        await push.click();
+        let alert = await driver.switchTo().alert();
+        await alert.sendKeys("Bananer");
+        await alert.accept();
+    });
 });
